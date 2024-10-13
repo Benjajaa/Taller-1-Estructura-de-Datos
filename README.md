@@ -1,4 +1,4 @@
-# Integrante
+# Creador
 Benjamín Salas, 21.758.667-4, benjamin.salas02@alumnos.ucn.cl, Paralelo C2
 # Simulador de Biblioteca Digital
 
@@ -45,4 +45,16 @@ Para compilar y ejecutar el programa, utiliza los siguientes comandos:
 sistema = Sistema::getInstance(); sistema->cargarBiblioteca(); sistema->cargarUsuario();
 
 
-El objeto `sistema` de tipo `sistema` gestiona la carga de datos mediante los metodos "cargarBiblioteca" y "cargarUsuarios".
+El objeto `sistema` de tipo `sistema` gestiona la carga de datos mediante los metodos `"cargarBiblioteca"` y `"cargarUsuarios"`.
+
+### Ejemplos Datos de Prueba
+
+En los archivos `biblioteca.txt` y `usuarios.txt` poseen datos con los que se pueden realizar las pruebas, aquí un ejemplo y su explicación.
+
+Bastian,4,0
+
+Se presenta un `usuario` llamado `Bastian` de rut `4` y `0` materiales prestados.
+
+Calculo,3,Maria,Libro,Disponible,23/7/2000,Ejercicios
+
+Se presenta un `material` llamado `Calculo` con `ISBN "3"`, de `autor "Maria"`, de `tipo "Libro"`, con `estado "Disponible"`, `creado el "23/07/2000"`, con un `resumen "Ejercicios"`.

@@ -1,60 +1,135 @@
-# Creador
-Benjamín Salas, 21.758.667-4, benjamin.salas02@alumnos.ucn.cl, Paralelo C2
-# Simulador de Biblioteca Digital
+Aquí tienes un archivo `README.md` completo con los elementos solicitados:
 
-El proyecto trata sobre un simulador de biblioteca digital que permite al encargado realizar diversas acciones, como la gestión de materiales bibliográficos y usuarios, la búsqueda de material, la administración de préstamos y devoluciones.
+---
 
-## Funcionalidades
+# **Minimax y Poda Alfa-Beta**
 
-### Agregar Material a la Biblioteca
-Los usuarios pueden añadir libros y revistas con atributos específicos como título, autor, ISBN, y cada parametro en especifico de cada tipo.
+Este proyecto contiene una implementación del algoritmo **Minimax** y su optimización mediante **Poda Alfa-Beta**. Ambos algoritmos son fundamentales en inteligencia artificial aplicada a juegos de dos jugadores, como el ajedrez o el tres en raya.
 
-### Mostrar Información de los Materiales
-Se puede generar un listado detallado de todos los materiales presentes en la biblioteca.
+---
 
-### Buscar Material
-Los usuarios pueden buscar materiales bibliográficos por título.
+## **Instrucciones para ejecutar el programa**
 
-### Préstamo y Devolución de Material
-Los usuarios pueden solicitar el préstamo de un máximo de cinco materiales a la vez, con la opción de devolverlos cuando lo deseen. El estado de los materiales se actualiza automáticamente tras cada operación.
+### **Requisitos previos**
+- Python 3.8 o superior.
+- Bibliotecas necesarias (instalar con pip si es necesario):
+  - `matplotlib` (para generar gráficos, si se incluyen).
 
-### Gestión de Usuarios
-El sistema permite crear, buscar y eliminar usuarios. Cada usuario tiene un registro de los materiales que ha solicitado en préstamo.
+### **Ejecución**
+1. Clona este repositorio en tu máquina:
+   ```bash
+   git clone https://github.com/usuario/repositorio.git
+   cd repositorio
+   ```
+2. Ejecuta el programa principal:
+   ```bash
+   python main.py
+   ```
+3. Sigue las instrucciones en la consola para seleccionar el modo de juego:
+   - **Jugador vs IA.**
+   - **IA vs IA.**
 
-## Persistencia de Datos
+---
 
-El sistema permite guardar y cargar la información de la biblioteca y los usuarios desde archivos de texto utilizando la biblioteca `fstream` para garantizar la persistencia de datos.
+## **Explicación del algoritmo utilizado**
 
-## Estructura del Código
+### **Minimax**
+El algoritmo **Minimax** busca la decisión óptima para un jugador asumiendo que el oponente también juega de manera óptima. En juegos de suma cero:
+- Un jugador busca **maximizar** su puntuación.
+- El otro busca **minimizar** la puntuación del oponente.
 
-- **Lenguaje de Programación:** C++
-- **Compilador:** g++
-- **Estructura del Código:**
-    - El código está organizado en múltiples archivos `.cpp` y `.h` para mantener una estructura modular y escalable.
-    - Uso de punteros y arrays estáticos para la gestión de la memoria dinámica.
+El algoritmo evalúa todos los posibles estados del juego (nodos hoja) y elige la estrategia más favorable.
 
-## Ejecución del Programa
+### **Poda Alfa-Beta**
+La **Poda Alfa-Beta** es una optimización del Minimax que reduce la cantidad de nodos evaluados sin alterar el resultado. Utiliza dos límites:
+- **Alfa (α):** El mejor valor garantizado para el jugador maximizador.
+- **Beta (β):** El mejor valor garantizado para el jugador minimizador.
 
-Para compilar y ejecutar el programa, utiliza los siguientes comandos:
+Si un nodo no puede mejorar el resultado del jugador actual, se detiene su evaluación.
 
-- **Compilar:** g++ -o Main MaterialBibliografico.cpp Libro.cpp Revista.cpp Usuario.cpp Sistema.cpp main.cpp
-- **Ejecutar:** ./Main
+---
 
-### Ejemplo de Objetos Creados en el `main`
+## **Explicación teórica**
 
-sistema = Sistema::getInstance(); sistema->cargarBiblioteca(); sistema->cargarUsuario();
+### **Minimax**
+1. **Objetivo:** Maximizar la ganancia del jugador mientras se minimiza la pérdida causada por el oponente.
+2. **Funcionamiento:**
+   - Representa el juego como un árbol de decisiones.
+   - Los nodos hoja tienen valores calculados por una función de utilidad (evaluación del estado).
+   - Se recorre el árbol **de abajo hacia arriba**, alternando entre los jugadores:
+     - **Max:** Escoge el valor máximo de los hijos.
+     - **Min:** Escoge el valor mínimo de los hijos.
 
+### **Poda Alfa-Beta**
+1. **Optimización:** Evita evaluar ramas que no afectarán la decisión final.
+2. **Estrategia:** Se actualizan los límites de **alfa** y **beta** durante el recorrido:
+   - Si un nodo hijo no mejora el valor actual, se detiene la evaluación de sus hermanos.
 
-El objeto `sistema` de tipo `sistema` gestiona la carga de datos mediante los metodos `"cargarBiblioteca"` y `"cargarUsuarios"`.
+---
 
-### Ejemplos Datos de Prueba
+## **Diagrama del árbol de juego (caso simple)**
 
-En los archivos `biblioteca.txt` y `usuarios.txt` poseen datos con los que se pueden realizar las pruebas, aquí un ejemplo y su explicación.
+El siguiente diagrama representa un árbol de decisiones para un juego simple con 2 niveles (Max y Min). Los números en las hojas son los valores de utilidad para el jugador Max:
 
-Bastian,4,0
+```
+          Max
+         /    \
+       Min     Min
+      / | \   / | \
+     3  5  2  9  6  1
+```
 
-Se presenta un `usuario` llamado `Bastian` de rut `4` y `0` materiales prestados.
+### **Solución con Minimax:**
+- **Max:** Evalúa cada rama.
+- Elige el máximo entre los valores obtenidos por los nodos **Min**:
+  - **Izquierda:** Min(3, 5, 2) = 2
+  - **Derecha:** Min(9, 6, 1) = 1
+  - **Resultado:** Max(2, 1) = **2**
 
-Calculo,3,Maria,Libro,Disponible,23/7/2000,Ejercicios
+### **Solución con Poda Alfa-Beta:**
+- Se detienen evaluaciones innecesarias una vez que se cumple la condición de poda.
 
-Se presenta un `material` llamado `Calculo` con `ISBN "3"`, de `autor "Maria"`, de `tipo "Libro"`, con `estado "Disponible"`, `creado el "23/07/2000"`, con un `resumen "Ejercicios"`.
+---
+
+## **Análisis de complejidad**
+
+### **Sin poda alfa-beta (Minimax):**
+La complejidad temporal es \(O(b^d)\), donde:
+- **\(b\):** Número de movimientos posibles (factor de ramificación).
+- **\(d\):** Profundidad del árbol de decisiones.
+
+Ejemplo:
+- Para un ajedrez típico: \(b \approx 35\), \(d \approx 6\) → \(35^6 \approx 1,838,265,625\) nodos a evaluar.
+
+### **Con poda alfa-beta:**
+En el mejor caso, la complejidad se reduce a \(O(b^{d/2})\). Esto ocurre cuando los nodos son evaluados en un orden óptimo (primero las ramas más prometedoras).
+
+Ejemplo:
+- Con los mismos valores (\(b \approx 35\), \(d \approx 6\)):
+  \(35^{6/2} = 35^3 = 42,875\) nodos a evaluar.
+
+**Comparación:**
+| **Estrategia**   | **Complejidad** | **Nodos evaluados** (aprox.) |
+|-------------------|-----------------|-----------------------------|
+| Minimax           | \(O(b^d)\)     | 1,838,265,625               |
+| Poda Alfa-Beta    | \(O(b^{d/2})\) | 42,875                      |
+
+---
+
+## **Referencias**
+- [Minimax en Wikipedia](https://es.wikipedia.org/wiki/Minimax)
+- [Poda Alfa-Beta](https://es.wikipedia.org/wiki/Poda_alpha-beta)
+
+---
+
+## **Contribuciones**
+¡Las contribuciones son bienvenidas! Si encuentras algún problema o tienes sugerencias para mejorar el proyecto, no dudes en abrir un _issue_ o enviar un _pull request_.
+
+---
+
+## **Licencia**
+Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+
+--- 
+
+Si necesitas ayuda con el código para construir este programa, no dudes en pedírmelo. 🚀
